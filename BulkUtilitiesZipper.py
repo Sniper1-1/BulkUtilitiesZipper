@@ -8,12 +8,19 @@ folders_to_zip=[] # Where the folders to zip are saved
 def select_folders_to_zip():
     select_folders_to_exist_text="Select a Directory to zip" # Set the initial prompt text
     select_more_folders = True
+    initial_dir = None
     while select_more_folders:
-        folder_to_zip = filedialog.askdirectory(title=select_folders_to_exist_text)
+        folder_to_zip = filedialog.askdirectory(title=select_folders_to_exist_text, initialdir=initial_dir)
         if folder_to_zip: # If a folder was selected, add it to the list and the user will be prompted again
             folders_to_zip.append(folder_to_zip)
+
+            # Prevents the select window from opening inside the last selected folder
+            if initial_dir is None:
+                initial_dir = os.path.dirname(folder_to_zip)
+
             select_folders_to_exist_text="Select another Directory to zip or Cancel to finish" # Change the prompt text for subsequent selections
             print(f"Selected folder to zip: {folder_to_zip}")
+
         else: # If the user clicks to cancel, they are done selecting folders so break the loop
             select_more_folders = False
             print("Finished selecting folders.")
