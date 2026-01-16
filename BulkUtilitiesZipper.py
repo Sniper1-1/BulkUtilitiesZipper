@@ -24,8 +24,8 @@ def create_zip(selected_folder):
         print(f"Directory to save zip: {directory_to_save_zip}")
         # Zip path is the save location + the name of the folder being zipped
         zip_path = os.path.join(directory_to_save_zip, os.path.basename(selected_folder))
-        # Create the zip file
-        zip_filename = shutil.make_archive(zip_path, 'zip', selected_folder)
+        # Create the zip file, ignoring files/directories starting with '.'
+        zip_filename = shutil.make_archive(zip_path, 'zip', selected_folder, ignore=shutil.ignore_patterns('.*'))
         print(f"Created zip file: {zip_filename}")
     else:
         print("No directory to save to")
