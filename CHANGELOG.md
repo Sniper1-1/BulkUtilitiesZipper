@@ -1,6 +1,14 @@
 
 ---
 
+**<details><summary>Version 1.0.4</summary>**
+
+ - When saving a zip, the window tells you the name of the folder being zipped.
+ 
+ </details>
+ 
+---
+
 **<details><summary>Version 1.0.3</summary>**
 
  - Subsequent selects don't open inside the previous selected folder.

@@ -26,7 +26,7 @@ def select_folders_to_zip():
             print("Finished selecting folders.")
 
 def create_zip(selected_folder):
-    directory_to_save_zip = filedialog.askdirectory(title="Select a Directory to save the zip file")
+    directory_to_save_zip = filedialog.askdirectory(title=f"Select a Directory to save the zip file for '{os.path.basename(selected_folder)}'")
     if directory_to_save_zip: # If a directory was selected to save to
         print(f"Directory to save zip: {directory_to_save_zip}")
         # Zip path is the save location + the name of the folder being zipped
