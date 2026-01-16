@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
-import shutil
+import zipfile
 
 folders_to_zip=[] # Where the folders to zip are saved
 
@@ -23,10 +23,23 @@ def create_zip(selected_folder):
     if directory_to_save_zip: # If a directory was selected to save to
         print(f"Directory to save zip: {directory_to_save_zip}")
         # Zip path is the save location + the name of the folder being zipped
-        zip_path = os.path.join(directory_to_save_zip, os.path.basename(selected_folder))
-        # Create the zip file, ignoring files/directories starting with '.'
-        zip_filename = shutil.make_archive(zip_path, 'zip', selected_folder, ignore=shutil.ignore_patterns('.*'))
-        print(f"Created zip file: {zip_filename}")
+        zip_path = os.path.join(directory_to_save_zip, os.path.basename(selected_folder) + '.zip')
+        
+        #"with...as" is like saying zip_file=zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) 
+        #but it automatically closes the file when done
+        with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file: 
+            for root, directories, files in os.walk(selected_folder):
+                # Filter out directories starting with '.'
+                directories[:] = [directory for directory in directories if not directory.startswith('.')]
+                
+                for file in files:
+                    # Skip files starting with '.'
+                    if not file.startswith('.'):
+                        file_path = os.path.join(root, file)
+                        arcname = os.path.relpath(file_path, selected_folder) # Relative path for files within the zip
+                        zip_file.write(file_path, arcname)
+        
+        print(f"Created zip file: {zip_path}")
     else:
         print("No directory to save to")
 
